@@ -1,1 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Central de Utilidades</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="cabecalho">
+    <div class="container cabecalho__conteudo">
+      <span class="logo">Central de Utilidades</span>
+      <nav>
+        <a href="#inicio">Início</a>
+        <a href="#ferramentas">Ferramentas</a>
+        <a href="#sobre">Sobre</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section id="inicio" class="apresentacao container">
+      <h1>Central de Utilidades</h1>
+      <p>Ferramentas simples e práticas para resolver situações do dia a dia.</p>
+    </section>
+
+    <section id="ferramentas" class="container">
+      <h2 class="titulo-secao">Ferramentas</h2>
+      <div class="cartoes">
+        <article class="cartao cartao--azul">
+          <h3>Calculadora de Descontos</h3>
+          <p>Descubra quanto você economiza em uma compra.</p>
+          <button onclick="executarFerramenta('desconto')">Calcular desconto</button>
+        </article>
+        <article class="cartao cartao--verde">
+          <h3>Calculadora de Parcelas</h3>
+          <p>Calcule o valor das parcelas de uma compra.</p>
+          <button onclick="executarFerramenta('parcelas')">Calcular parcelas</button>
+        </article>
+        <article class="cartao cartao--roxo">
+          <h3>Simulador de Investimentos</h3>
+          <p>Simule o crescimento de um investimento ao longo do tempo.</p>
+          <button onclick="executarFerramenta('investimento')">Simular investimento</button>
+        </article>
+        <article class="cartao cartao--laranja">
+          <h3>Divisor de Despesas</h3>
+          <p>Descubra quanto cada pessoa deve pagar em uma conta compartilhada.</p>
+          <button onclick="executarFerramenta('despesas')">Dividir despesas</button>
+        </article>
+      </div>
+      <p class="menu-alternativo">
+        Prefere um menu único? <button class="botao-secundario" onclick="iniciarMenu()">Abrir menu</button>
+      </p>
+    </section>
+
+    <section id="sobre" class="container sobre">
+      <h2 class="titulo-secao">Sobre</h2>
+      <p>Projeto Integrador de Programação Web I (IF Sudeste MG, Campus Barbacena). Esta é a Etapa 1: a lógica das ferramentas em JavaScript, com entradas por <code>prompt()</code> e resultados por <code>alert()</code>.</p>
+    </section>
+  </main>
+
+  <footer class="rodape">
+    <p>&copy; 2026 – Central de Utilidades</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
 
