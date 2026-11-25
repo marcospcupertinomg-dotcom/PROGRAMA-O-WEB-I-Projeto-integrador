@@ -55,7 +55,7 @@
 
     <section id="sobre" class="container sobre">
       <h2 class="titulo-secao">Sobre</h2>
-      <p>Projeto Integrador de Programação Web I (IF Sudeste MG, Campus Barbacena). Esta é a Etapa 1: a lógica das ferramentas em JavaScript, com entradas por <code>prompt()</code> e resultados por <code>alert()</code>.</p>
+      <p>Projeto Integrador de Programação Web I</p>
     </section>
   </main>
 
