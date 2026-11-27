@@ -1,1 +1,293 @@
+// ===== Central de Utilidades - Etapa 1: Fundamentos de JavaScript =====
+
+// ---------- Funções auxiliares ----------
+
+// Formata um número como moeda brasileira (ex.: 1234.5 -> "R$ 1.234,50")
+function formatarMoeda(valor) {
+  return valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+}
+
+// Lê um número com prompt().
+// Retorna null se o usuário cancelar e NaN se o texto não for um número.
+function lerNumero(mensagem) {
+  const resposta = prompt(mensagem);
+  if (resposta === null) {
+    return null;
+  }
+  const texto = resposta.trim().replace(",", "."); // aceita vírgula decimal
+  if (texto === "") {
+    return NaN;
+  }
+  return Number(texto);
+}
+
+// Retorna true se o valor for um número válido (nem null, nem NaN)
+function numeroValido(valor) {
+  return valor !== null && !isNaN(valor);
+}
+
+// ---------- a) Calculadora de descontos ----------
+
+function calcularPrecoFinal(preco, percentual) {
+  return preco - (preco * percentual) / 100;
+}
+
+function calculadoraDescontos() {
+  const preco = lerNumero("Informe o preço original do produto (R$):");
+  if (preco === null) return;
+  if (!numeroValido(preco) || preco <= 0) {
+    alert("Preço inválido. Informe um número maior que zero.");
+    return;
+  }
+
+  const percentual = lerNumero("Informe o percentual de desconto (0 a 100):");
+  if (percentual === null) return;
+  if (!numeroValido(percentual) || percentual < 0 || percentual > 100) {
+    alert("Desconto inválido. Informe um valor entre 0 e 100.");
+    return;
+  }
+
+  const precoFinal = calcularPrecoFinal(preco, percentual);
+  const economia = preco - precoFinal;
+
+  alert(
+    "=== Calculadora de Descontos ===\n" +
+    "Preço original: " + formatarMoeda(preco) + "\n" +
+    "Desconto (" + percentual + "%): " + formatarMoeda(economia) + "\n" +
+    "Valor economizado: " + formatarMoeda(economia) + "\n" +
+    "Preço final: " + formatarMoeda(precoFinal)
+  );
+}
+
+// ---------- b) Calculadora de parcelas ----------
+
+function calcularParcela(total, quantidade) {
+  return total / quantidade;
+}
+
+function calculadoraParcelas() {
+  const total = lerNumero("Informe o valor total da compra (R$):");
+  if (total === null) return;
+  if (!numeroValido(total) || total <= 0) {
+    alert("Valor inválido. Informe um número maior que zero.");
+    return;
+  }
+
+  const quantidade = lerNumero("Informe a quantidade de parcelas:");
+  if (quantidade === null) return;
+  if (!numeroValido(quantidade) || quantidade < 1 || !Number.isInteger(quantidade)) {
+    alert("Quantidade de parcelas inválida. Informe um número inteiro maior ou igual a 1.");
+    return;
+  }
+
+  const parcela = calcularParcela(total, quantidade);
+
+  alert(
+    "=== Calculadora de Parcelas ===\n" +
+    "Valor total: " + formatarMoeda(total) + "\n" +
+    "Quantidade de parcelas: " + quantidade + "\n" +
+    "Valor de cada parcela: " + formatarMoeda(parcela)
+  );
+}
+
+// ---------- c) Simulador de investimentos ----------
+
+// Rendimento aplicado sobre o saldo e, depois, aporte no final do mês
+function simularInvestimento(inicial, aporte, taxaMensal, meses) {
+  let saldo = inicial;
+  for (let mes = 1; mes <= meses; mes++) {
+    saldo = saldo + saldo * (taxaMensal / 100); // rendimento do mês
+    saldo = saldo + aporte;                      // aporte no final do mês
+  }
+  return saldo;
+}
+
+function simuladorInvestimentos() {
+  const inicial = lerNumero("Informe o valor inicial do investimento (R$):");
+  if (inicial === null) return;
+  if (!numeroValido(inicial) || inicial < 0) {
+    alert("Valor inicial inválido. Informe um número maior ou igual a zero.");
+    return;
+  }
+
+  const aporte = lerNumero("Informe o valor do aporte mensal (R$):");
+  if (aporte === null) return;
+  if (!numeroValido(aporte) || aporte < 0) {
+    alert("Aporte inválido. Informe um número maior ou igual a zero.");
+    return;
+  }
+
+  const taxa = lerNumero("Informe a taxa de rendimento mensal (%):");
+  if (taxa === null) return;
+  if (!numeroValido(taxa) || taxa < 0) {
+    alert("Taxa inválida. Informe um número maior ou igual a zero.");
+    return;
+  }
+
+  const meses = lerNumero("Informe o período do investimento (em meses):");
+  if (meses === null) return;
+  if (!numeroValido(meses) || meses < 1 || !Number.isInteger(meses)) {
+    alert("Período inválido. Informe um número inteiro de meses maior ou igual a 1.");
+    return;
+  }
+
+  const saldoFinal = simularInvestimento(inicial, aporte, taxa, meses);
+  const totalInvestido = inicial + aporte * meses;
+  const rendimento = saldoFinal - totalInvestido;
+
+  alert(
+    "=== Simulador de Investimentos ===\n" +
+    "Saldo final: " + formatarMoeda(saldoFinal) + "\n" +
+    "Total investido: " + formatarMoeda(totalInvestido) + "\n" +
+    "Rendimento obtido: " + formatarMoeda(rendimento) + "\n\n" +
+    "Investimento inicial: " + formatarMoeda(inicial) + "\n" +
+    "Aportes (" + meses + " meses): " + formatarMoeda(aporte * meses) + "\n" +
+    "Taxa de rendimento: " + taxa + "% ao mês"
+  );
+}
+
+// ---------- d) Divisor de despesas (Entrega 2: arrays e objetos) ----------
+
+// Cria o objeto que representa uma despesa
+function criarDespesa(descricao, valor) {
+  return { descricao: descricao, valor: valor };
+}
+
+// Percorre o array somando o valor de cada despesa
+function somarDespesas(despesas) {
+  let total = 0;
+  for (let i = 0; i < despesas.length; i++) {
+    total += despesas[i].valor;
+  }
+  return total;
+}
+
+function dividirDespesas(total, pessoas) {
+  return total / pessoas;
+}
+
+// Monta o texto com o detalhamento das despesas cadastradas
+function montarDetalhamento(despesas) {
+  let texto = "";
+  for (let i = 0; i < despesas.length; i++) {
+    texto += "- " + despesas[i].descricao + ": " + formatarMoeda(despesas[i].valor) + "\n";
+  }
+  return texto;
+}
+
+// Solicita as despesas ao usuário e devolve o array preenchido
+function coletarDespesas() {
+  const despesas = [];
+  let continuar;
+
+  do {
+    const descricao = prompt("Descrição da despesa (ex.: Almoço):");
+    if (descricao === null) {
+      break; // cancelar encerra a inclusão
+    }
+
+    const valor = lerNumero("Valor da despesa \"" + descricao.trim() + "\" (R$):");
+    if (valor === null) {
+      break;
+    }
+
+    if (descricao.trim() === "") {
+      alert("A descrição não pode ficar vazia.");
+    } else if (!numeroValido(valor) || valor <= 0) {
+      alert("Valor inválido. Informe um número maior que zero.");
+    } else {
+      despesas.push(criarDespesa(descricao.trim(), valor));
+    }
+
+    continuar = confirm("Deseja informar outra despesa?");
+  } while (continuar);
+
+  return despesas;
+}
+
+function divisorDespesas() {
+  const despesas = coletarDespesas();
+
+  if (despesas.length === 0) {
+    alert("Nenhuma despesa foi informada.");
+    return;
+  }
+
+  const total = somarDespesas(despesas);
+
+  const pessoas = lerNumero("Total das despesas: " + formatarMoeda(total) + "\nInforme a quantidade de pessoas:");
+  if (pessoas === null) return;
+  if (!numeroValido(pessoas) || pessoas <= 0 || !Number.isInteger(pessoas)) {
+    alert("Quantidade de pessoas inválida. Informe um número inteiro maior que zero.");
+    return;
+  }
+
+  const porPessoa = dividirDespesas(total, pessoas);
+
+  alert(
+    "=== Divisor de Despesas ===\n" +
+    "Total das despesas: " + formatarMoeda(total) + "\n" +
+    "Quantidade de pessoas: " + pessoas + "\n" +
+    "Valor por pessoa: " + formatarMoeda(porPessoa) + "\n\n" +
+    "Detalhamento:\n" + montarDetalhamento(despesas)
+  );
+}
+
+// ---------- Seleção da ferramenta (switch) ----------
+
+function executarFerramenta(ferramenta) {
+  switch (ferramenta) {
+    case "desconto":
+      calculadoraDescontos();
+      break;
+    case "parcelas":
+      calculadoraParcelas();
+      break;
+    case "investimento":
+      simuladorInvestimentos();
+      break;
+    case "despesas":
+      divisorDespesas();
+      break;
+    default:
+      alert("Ferramenta inexistente.");
+  }
+}
+
+// Menu único com prompt(): também usa switch para escolher a ferramenta
+function iniciarMenu() {
+  let opcao;
+  do {
+    opcao = prompt(
+      "CENTRAL DE UTILIDADES\n\n" +
+      "1 - Calculadora de descontos\n" +
+      "2 - Calculadora de parcelas\n" +
+      "3 - Simulador de investimentos\n" +
+      "4 - Divisor de despesas\n" +
+      "0 - Sair\n\n" +
+      "Escolha uma opção:"
+    );
+
+    switch (opcao) {
+      case "1":
+        executarFerramenta("desconto");
+        break;
+      case "2":
+        executarFerramenta("parcelas");
+        break;
+      case "3":
+        executarFerramenta("investimento");
+        break;
+      case "4":
+        executarFerramenta("despesas");
+        break;
+      case "0":
+      case null:
+        opcao = "0";
+        break;
+      default:
+        alert("Opção inválida. Escolha um número de 0 a 4.");
+    }
+  } while (opcao !== "0");
+}
 
